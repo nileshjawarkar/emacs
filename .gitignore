@@ -1,0 +1,4 @@
+*.*~
+config.el
+auto-save-list/*
+straight/*

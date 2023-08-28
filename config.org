@@ -1,0 +1,98 @@
+#+TITLE: GNU Emacs Config
+#+AUTHOR: Nilesh Jawarkar
+#+DESCRIPTION: Config
+#+STARTUP: showeverything
+#+OPTIONS: toc:2
+
+* Basic setup
+
+#+begin_src emacs-lisp
+;; Do not show the startup screen
+(setq inhibit-startup-message t)
+
+;; Disable tool bar, menu bar, scroll bar.
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(toggle-scroll-bar -1)
+
+;; Some other settings
+(blink-cursor-mode -1)
+(global-hl-line-mode +1)
+(line-number-mode +1)
+(global-display-line-numbers-mode +1)
+(column-number-mode t)
+(size-indication-mode t)
+
+(set-face-attribute 'default nil :font "SauceCodePro Nerd Font" :height 130)
+;;(set-face-attribute 'default nil :font "Mononoki Nerd Font" :height 130)
+(add-to-list 'default-frame-alist '(height . 35))
+(add-to-list 'default-frame-alist '(width . 135))
+
+#+end_src
+
+* Install Package Manager
+
+#+begin_src emacs-lisp
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
+#+end_src
+
+* Theme
+
+#+begin_src emacs-lisp
+(use-package nerd-icons
+    :straight t)
+
+(use-package doom-themes
+    :straight t
+    :ensure t
+    :config
+    (load-theme 'doom-one t)
+    (doom-themes-visual-bell-config))
+
+(use-package doom-modeline
+    :straight t
+    :ensure t
+    :init (doom-modeline-mode 1))
+#+end_src
+
+* Evil mode
+
+#+begin_src emacs-lisp
+(use-package evil
+  :straight t
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-vsplit-window-right t)
+  (setq evil-split-window-below t)
+  (setq evil-jumps-cross-buffers nil)
+  (setq evil-want-Y-yank-to-eol t)
+  (setq evil-want-C-u-scroll t)
+
+  ;; Prevent the cursor from moving beyond the end of line.
+  (setq evil-move-cursor-back nil)
+  (setq evil-move-beyond-eol nil)
+
+  :config
+  (evil-mode 1)
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+#+end_src
+
+
+
+
