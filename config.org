@@ -24,10 +24,6 @@
 (column-number-mode t)
 (size-indication-mode t)
 
-(set-face-attribute 'default nil :font "SauceCodePro Nerd Font" :height 130)
-;;(set-face-attribute 'default nil :font "Mononoki Nerd Font" :height 130)
-(add-to-list 'default-frame-alist '(height . 35))
-(add-to-list 'default-frame-alist '(width . 135))
 
 #+end_src
 
@@ -53,6 +49,13 @@
 * Theme
 
 #+begin_src emacs-lisp
+(set-face-attribute 'default nil :font "SauceCodePro Nerd Font" :height 130)
+;;(set-face-attribute 'default nil :font "Mononoki Nerd Font" :height 130)
+(add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font"))
+(add-to-list 'default-frame-alist '(height . 35))
+(add-to-list 'default-frame-alist '(width . 135))
+(setq-default line-spacing 0.12)
+
 (use-package nerd-icons
     :straight t)
 
@@ -91,6 +94,44 @@
   (evil-mode 1)
   (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-initial-state 'dashboard-mode 'normal))
+  
+(use-package evil-collection
+  :straight t
+  :after evil
+  :config
+  (setq evil-collection-mode-list '(dashboard dired ibuffer))
+  (evil-collection-init))
+#+end_src
+
+* General key-bindings
+
+#+begin_src emacs-lisp
+(use-package general
+  :straight t
+  :config
+  (general-evil-setup)
+
+  ;; set up space as the global leader key
+  (general-create-definer nj/leader-keys
+  :states '(normal insert visual emacs)
+  :keymaps 'override
+  :prefix "SPC"
+  :global-prefix "M-SPC")
+
+  (nj/leader-keys
+  "b" '(:ignore t :wk "buffer")
+  "bb" '(switch-to-buffer :wk "Switch buffer")
+  "bk" '(kill-this-buffer :wk "Kill this buffer")
+  "bn" '(next-buffer :wk "Next buffer")
+  "bp" '(previous-buffer :wk "Previous buffer")
+  "br" '(revert-buffer :wk "Reload buffer"))
+)
+#+end_src
+
+* Org mode configuration
+
+#+begin_src emacs-lisp
+
 #+end_src
 
 
