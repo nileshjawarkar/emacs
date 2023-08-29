@@ -24,7 +24,10 @@
 (column-number-mode t)
 (size-indication-mode t)
 
-
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
 #+end_src
 
 * Install Package Manager
@@ -44,6 +47,15 @@
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
+#+end_src
+
+* Manage package updates
+
+#+begin_src emacs-lisp
+(use-package auto-compile
+    :straight t
+    :config (auto-compile-on-load-mode))
+(setq load-prefer-newer t)
 #+end_src
 
 * Theme
@@ -131,8 +143,15 @@
 * Org mode configuration
 
 #+begin_src emacs-lisp
-
+(use-package org
+  :straight t)
+(use-package org-bullets
+  :straight t)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(setq org-hide-leading-stars t)
 #+end_src
+
+
 
 
 
