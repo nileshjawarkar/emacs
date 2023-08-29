@@ -58,10 +58,29 @@
 (setq load-prefer-newer t)
 #+end_src
 
+* Org mode configuration
+
+** Note -
+
+    If using org file for configuring emacs, please use default org mode implementation.
+    This is because, installing new org version with straight, will lead to *conflict* with 
+    default org implementation. Its due to default org implementation will get loaded even
+    before running babel to convert config.org to config.el. And this config.el is resposible for installing new org
+    implementation and configure it.
+
+#+begin_src emacs-lisp
+;;(use-package org
+;;  :straight t)
+(use-package org-bullets
+  :straight t)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(setq org-hide-leading-stars t)
+#+end_src
+
 * Theme
 
 #+begin_src emacs-lisp
-(set-face-attribute 'default nil :font "SauceCodePro Nerd Font" :height 130)
+(set-face-attribute 'default nil :font "SauceCodePro Nerd Font" :height 120)
 ;;(set-face-attribute 'default nil :font "Mononoki Nerd Font" :height 130)
 (add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font"))
 (add-to-list 'default-frame-alist '(height . 35))
@@ -140,19 +159,13 @@
 )
 #+end_src
 
-* Org mode configuration
+* Which-key configuration
 
 #+begin_src emacs-lisp
-(use-package org
-  :straight t)
-(use-package org-bullets
-  :straight t)
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-(setq org-hide-leading-stars t)
+(use-package which-key
+    :straight t
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config
+	(setq which-key-idel-delay 2))
 #+end_src
-
-
-
-
-
-
