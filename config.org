@@ -133,6 +133,7 @@ implementation and configure it.
 (add-hook 'org-mode-hook 'org-indent-mode)
 ;; Org mode source blocks have some really weird and annoying default indentation behavior, disable it.
 (electric-indent-mode -1)
+(setq org-edit-src-content-indentation 0)
 #+end_src
 
 ** Enable bullests, replace *
@@ -162,19 +163,44 @@ implementation and configure it.
 
   ;; set up space as the global leader key
   (general-create-definer nj/leader-keys
-  :states '(normal insert visual emacs)
-  :keymaps 'override
-  :prefix "SPC"
-  :global-prefix "M-SPC")
+    :states '(normal insert visual emacs)
+    :keymaps 'override
+    :prefix "SPC"
+    :global-prefix "M-SPC")
 
-  (nj/leader-keys
-  "b" '(:ignore t :wk "buffer")
-  "bb" '(switch-to-buffer :wk "Switch buffer")
-  "bk" '(kill-this-buffer :wk "Kill this buffer")
-  "bn" '(next-buffer :wk "Next buffer")
-  "bp" '(previous-buffer :wk "Previous buffer")
-  "br" '(revert-buffer :wk "Reload buffer"))
+    (nj/leader-keys
+        "SPC" '(counsel-M-x :wk "Counsel M-x")
+        "." '(find-file :wk "Find file")
+        "TAB TAB" '(comment-line :wk "Comment lines"))
+
+    (nj/leader-keys
+        "b" '(:ignore t :wk "buffer")
+        "bb" '(switch-to-buffer :wk "Switch buffer")
+        "bk" '(kill-this-buffer :wk "Kill this buffer")
+        "bn" '(next-buffer :wk "Next buffer")
+        "bp" '(previous-buffer :wk "Previous buffer")
+        "br" '(revert-buffer :wk "Reload buffer"))
+
+    (nj/leader-keys
+        "h" '(:ignore t :wk "Help")
+        "h f" '(describe-function :wk "Describe function")
+        "h v" '(describe-variable :wk "Describe variable")
+        "h r r" '(reload-init-file :wk "Reload emacs config"))
+
+    (nj/leader-keys
+        "m" '(:ignore t :wk "Org")
+        "m a" '(org-agenda :wk "Org agenda")
+        "m e" '(org-export-dispatch :wk "Org export dispatch")
+        "m i" '(org-toggle-item :wk "Org toggle item")
+        "m t" '(org-todo :wk "Org todo")
+        "m B" '(org-babel-tangle :wk "Org babel tangle")
+        "m T" '(org-todo-list :wk "Org todo list"))
 )
+
+(defun reload-init-file ()
+    (interactive)
+    (load-file user-init-file)
+    (load-file user-init-file))
 #+end_src
 
 * Which-key configuration
@@ -195,6 +221,5 @@ implementation and configure it.
     which-key-side-window-max-height 0.25
     which-key-idle-delay 0.8
     which-key-max-description-length 25
-    which-key-allow-imprecise-window-fit t
     which-key-separator " -> " ))
 #+end_src
