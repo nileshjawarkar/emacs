@@ -15,6 +15,7 @@
   - [[#indent-config][Indent config]]
   - [[#enable-bullests-replace-][Enable bullests, replace *]]
   - [[#enable-toc][Enable TOC]]
+  - [[#enable-org-block-completion][Enable org block completion]]
 - [[#general-key-bindings][General key-bindings]]
 - [[#which-key-configuration][Which-key configuration]]
 
@@ -114,6 +115,7 @@
     :after evil
     :config
     (setq evil-collection-mode-list '(dashboard dired ibuffer))
+    (add-to-list 'evil-collection-mode-list 'help)
     (evil-collection-init))
 #+end_src
 
@@ -153,6 +155,11 @@ implementation and configure it.
     :init (add-hook 'org-mode-hook 'toc-org-enable))
 #+end_src
 
+** Enable org block completion
+#+begin_src emacs-lisp
+(require 'org-tempo)
+#+end_src
+
 * General key-bindings
 
 #+begin_src emacs-lisp
@@ -169,7 +176,6 @@ implementation and configure it.
     :global-prefix "M-SPC")
 
     (nj/leader-keys
-        "SPC" '(counsel-M-x :wk "Counsel M-x")
         "." '(find-file :wk "Find file")
         "TAB TAB" '(comment-line :wk "Comment lines"))
 
